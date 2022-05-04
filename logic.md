@@ -15,5 +15,7 @@ terminalStart --> setSonarRead
 setSonarRead --> setPiezoPin
 setPiezoPin --> setTail
 setTail --> setLight
-
+setLight --> thresholdSetOne
+thresholdSetOne --> thresholdSetTwo
+thresholdSetTwo --> thresholdSetThree
 ```
