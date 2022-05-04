@@ -12,6 +12,8 @@ thresholdSetTwo(distanceThresholdTwo = 35)
 thresholdSetThree(distanceThresholdThree = 25)
 currentDistanceReading(distanceRead = response from sonar)
 ifDistanceLessThanThresholdOne{distanceRead < distanceThresholdOne}
+piezoOneBuzz(write piezoPin HIGH, delay 1000 write piezoPin LOW)
+tailSlow(tailWag = slow by 50%)
 sonarStart(sonarLoop)
 
 terminalStart --> setupStart
@@ -27,4 +29,6 @@ thresholdSetThree --> terminalEnd
 terminalStart --> sonarStart
 sonarStart --> currentDistanceReading
 currentDistanceReading --> ifDistanceLessThanThresholdOne
+ifDistanceLessThanThresholdOne --> |True| piezoOneBuzz
+piezoOneBuzz --> tailSlow
 ```
