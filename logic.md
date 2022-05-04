@@ -25,9 +25,8 @@ setTail --> setLight
 setLight --> thresholdSetOne
 thresholdSetOne --> thresholdSetTwo
 thresholdSetTwo --> thresholdSetThree
-thresholdSetThree --> terminalEnd
+thresholdSetThree --> sonarStart
 
-terminalStart --> sonarStart
 sonarStart --> currentDistanceReading
 currentDistanceReading --> ifDistanceLessThanThresholdOne
 ifDistanceLessThanThresholdOne --> |True| piezoOneBuzz
