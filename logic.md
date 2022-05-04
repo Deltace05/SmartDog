@@ -33,4 +33,5 @@ currentDistanceReading --> ifDistanceLessThanThresholdOne
 ifDistanceLessThanThresholdOne --> |True| piezoOneBuzz
 piezoOneBuzz --> tailSlow
 tailSlow --> currentDistanceReading
+ifDistanceLessThanThredholdOne --> |False| currentDistanceReading
 ```
