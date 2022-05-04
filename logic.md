@@ -12,6 +12,8 @@ thresholdSetTwo(distanceThresholdTwo = 35)
 thresholdSetThree(distanceThresholdThree = 25)
 currentDistanceReading(distanceRead = response from sonar)
 ifDistanceLessThanThresholdOne{distanceRead <distanceThresholdOne>}
+sonarStart(sonarLoop)
+
 terminalStart --> setupStart
 setupStart --> setSonarRead
 setSonarRead --> setPiezoPin
@@ -20,4 +22,9 @@ setTail --> setLight
 setLight --> thresholdSetOne
 thresholdSetOne --> thresholdSetTwo
 thresholdSetTwo --> thresholdSetThree
+thresholdSetThree --> terminalEnd
+
+terminalStart --> sonarStart
+sonarStart --> currentDistanceReading
+currentDistanceReading --> ifDistanceLessThanThresholdOne
 ```
