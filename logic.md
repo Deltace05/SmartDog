@@ -46,4 +46,7 @@ ifDistanceLessThanThresholdTwo --> |True| piezoTwoBuzz
 piezoTwoBuzz --> tailStop
 tailStop --> terminalEnd
 ifDistanceLessThanThresholdTwo --> |False| ifDistanceLessThanThresholdThree
+ifDistanceLessThanThresholdThree --> |True| piezoConstant
+piezoConstant --> sonarLightAlarm
+sonarLightAlarm --> terminalEnd
 ```
