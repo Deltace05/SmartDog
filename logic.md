@@ -32,5 +32,5 @@ currentDistanceReading --> ifDistanceLessThanThresholdOne
 ifDistanceLessThanThresholdOne --> |True| piezoOneBuzz
 piezoOneBuzz --> tailSlow
 tailSlow --> terminalEnd
-ifDistanceLessThanThresholdOne --> |False| currentDistanceReading
+ifDistanceLessThanThresholdOne --> |False| ifDistanceLessThanThresholdTwo
 ```
