@@ -38,5 +38,6 @@ tailSlow --> terminalEnd
 ifDistanceLessThanThresholdOne --> |False| ifDistanceLessThanThresholdTwo
 ifDistanceLessThanThresholdTwo --> |True| piezoTwoBuzz
 piezoTwoBuzz --> tailStop
+tailStop --> terminalEnd
 ifDistanceLessThanThresholdTwo --> |False| ifDistanceLessThanThresholdThree
 ```
