@@ -2,7 +2,6 @@
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
-setupStart(setup)
 setSonarRead(sonarPins = pins)
 setPiezoPin(piezoPin = pin)
 setTail(tailMotorPins = pins)
@@ -22,19 +21,16 @@ sonarLightAlarmReset(trafficLightPins Red & Yellow LOW)
 piezoReset(write piezoPin LOW)
 tailSlow(tailWag = slow by 50%)
 tailStop(tailWag = halt)
-sonarStart(sonarLoop)
 
-terminalStart --> setupStart
-setupStart --> setSonarRead
+
+terminalStart --> setSonarRead
 setSonarRead --> setPiezoPin
 setPiezoPin --> setTail
 setTail --> setLight
 setLight --> thresholdSetOne
 thresholdSetOne --> thresholdSetTwo
 thresholdSetTwo --> thresholdSetThree
-thresholdSetThree --> sonarStart
-
-sonarStart --> piezoReset
+thresholdSetThree --> piezoReset
 piezoReset --> sonarLightAlarmReset
 sonarLightAlarmReset --> currentDistanceReading
 currentDistanceReading --> ifDistanceLessThanThresholdOne
@@ -57,4 +53,9 @@ ifDistanceLessThanThresholdThree --> |False| terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
+setStartUP(setup)
+
+
+
+
 ```
