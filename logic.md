@@ -55,5 +55,6 @@ ifDistanceLessThanThresholdThree --> |False| terminalEnd
 
 ```mermaid
 flowchart TD
-
+terminalStart([Start])
+terminalEnd([End])
 ```
