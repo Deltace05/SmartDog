@@ -31,6 +31,6 @@ sonarStart --> currentDistanceReading
 currentDistanceReading --> ifDistanceLessThanThresholdOne
 ifDistanceLessThanThresholdOne --> |True| piezoOneBuzz
 piezoOneBuzz --> tailSlow
-tailSlow --> currentDistanceReading
+tailSlow --> terminalEnd
 ifDistanceLessThanThresholdOne --> |False| currentDistanceReading
 ```
