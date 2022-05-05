@@ -53,7 +53,6 @@ ifDistanceLessThanThresholdThree --> |False| terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
-setStartUP(setup)
 
 
 
