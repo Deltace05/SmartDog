@@ -23,6 +23,7 @@ piezoReset(write piezoPin LOW)
 tailSlow(tailWag = slow by 50%)
 tailStop(tailWag = halt)
 sonarStart(sonarLoop)
+lineSensorStart(lineSensorLoop)
 
 terminalStart --> setupStart
 setupStart --> setSonarRead
@@ -49,4 +50,5 @@ ifDistanceLessThanThresholdTwo --> |False| ifDistanceLessThanThresholdThree
 ifDistanceLessThanThresholdThree --> |True| piezoConstant
 piezoConstant --> sonarLightAlarm
 sonarLightAlarm --> terminalEnd
+ifDistanceLessThanThresholdThree --> |False| lineSensorStart
 ```
