@@ -71,3 +71,17 @@ isOnLine --> terminalEnd
 ifOnLine --> |False| isNotOnLine
 isNotOnLine --> terminalEnd
 ```
+
+```mermaid
+flowchart TD
+terminalStart([Start])
+terminalEnd([End])
+
+
+
+
+
+
+
+
+```
