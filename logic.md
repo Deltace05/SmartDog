@@ -55,6 +55,8 @@ terminalStart([Start])
 terminalEnd([End])
 declareLineSensor(set lineSensor pins)
 setGreenLight(set green traffic light pin)
+lineSensorData(onLine = response from sensor)
+ifOnLine{is onLine?}
 
 
 
