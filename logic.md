@@ -5,7 +5,7 @@ terminalEnd([End])
 setSonarRead(sonarPins = pins)
 setPiezoPin(piezoPin = pin)
 setTail(tailMotorPins = pins)
-setLight(trafficLightPins = pins)
+setRedYellowLight(trafficLightRedYellowPins = pins)
 thresholdSetOne(distanceThresholdOne = 50)
 thresholdSetTwo(distanceThresholdTwo = 35)
 thresholdSetThree(distanceThresholdThree = 25)
@@ -26,8 +26,8 @@ tailStop(tailWag = halt)
 terminalStart --> setSonarRead
 setSonarRead --> setPiezoPin
 setPiezoPin --> setTail
-setTail --> setLight
-setLight --> thresholdSetOne
+setTail --> setRedYellowLight
+setRedYellowLight --> thresholdSetOne
 thresholdSetOne --> thresholdSetTwo
 thresholdSetTwo --> thresholdSetThree
 thresholdSetThree --> piezoReset
@@ -53,7 +53,8 @@ ifDistanceLessThanThresholdThree --> |False| terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
-
+declareLineSensor(set lineSensor pins)
+setGreenLight(set green traffic light pin)
 
 
 
