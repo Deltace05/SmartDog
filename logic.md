@@ -76,7 +76,9 @@ isNotOnLine --> terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
-
+setButton(set buttonPins)
+setBoolean(set buttonBoolean)
+ifboolean true{isButtonBoolean true or false}
 
 
 
