@@ -56,8 +56,15 @@ terminalEnd([End])
 declareLineSensor(set lineSensor pins)
 setGreenLight(set green traffic light pin)
 lineSensorData(onLine = response from sensor)
+resetLight(write greenLight LOW)
 ifOnLine{is onLine?}
+isOnLine(write greenLight HIGH)
+isNotOnLine(write greenLight HIGH delay 100 write greenLight LOW)
 
-
+terminalStart --> declareLineSensor
+declareLineSensor --> setGreenLight
+setGreenLight --> lineSensorData
+lineSensorData --> resetLight
+resetLight --> ifOnLine
 
 ```
