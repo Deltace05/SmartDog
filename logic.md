@@ -66,5 +66,8 @@ declareLineSensor --> setGreenLight
 setGreenLight --> lineSensorData
 lineSensorData --> resetLight
 resetLight --> ifOnLine
-
+ifOnLine --> |True| isOnLine
+isOnLine --> terminalEnd
+if OnLine --> |False| isNotOnLine
+isNotOnLine --> terminalEnd
 ```
