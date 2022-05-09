@@ -83,8 +83,12 @@ ifBooleanTrueFalse{isButtonBoolean true or false}
 ifBooleanTrue(allow function of other systems)
 ifBooleanFalse(do not allow function of other systems)
 
-
-
-
-
+terminalStart --> setButton
+setButton --> setBoolean
+setBoolean --> buttonData
+buttonData --> ifBooleanTrueFalse
+ifBooleanTrueFalse --> |True| ifBooleanTrue
+ifBooleanTrue --> terminalEnd
+ifBooleanTrueFalse --> |False| ifBooleanFalse
+ifBooleanFalse --> terminalEnd
 ```
