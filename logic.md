@@ -78,9 +78,10 @@ terminalStart([Start])
 terminalEnd([End])
 setButton(set buttonPins)
 setBoolean(set buttonBoolean)
-ifBooleanTrue{isButtonBoolean true or false}
-
-
+buttonData(buttonBoolean true or false flip via button)
+ifBooleanTrueFalse{isButtonBoolean true or false}
+ifBooleanTrue(allow function of other systems)
+ifBooleanFalse(do not allow function of other systems)
 
 
 
