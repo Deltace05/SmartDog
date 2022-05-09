@@ -68,6 +68,6 @@ lineSensorData --> resetLight
 resetLight --> ifOnLine
 ifOnLine --> |True| isOnLine
 isOnLine --> terminalEnd
-if OnLine --> |False| isNotOnLine
+ifOnLine --> |False| isNotOnLine
 isNotOnLine --> terminalEnd
 ```
