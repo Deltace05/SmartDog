@@ -97,13 +97,25 @@ ifBooleanFalse --> terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
+setVolumePot(set PotentioMeterPins)
+piezoInfo(piezoPins already set)
+readVolumePot(volumeData = data from volumePot)
+convertOutput(convert volumeData to voltageNum)
+outputVolt(output voltageNum to piezo)
 
+terminalStart --> setVolumePot
+setVolumePot --> piezoInfo
+piezoInfo --> readVolumePot
+readVolumePot --> convertOutput
+convertOutput --> outputVolt
+outputVolt --> terminalEnd
+```
 
-
-
-
-
-
+```mermaid
+flowchart TD
+terminalStart([Start])
+terminalEnd([End])
+setDogRemote(set infraredPins)
 
 
 ```
