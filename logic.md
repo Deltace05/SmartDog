@@ -116,6 +116,19 @@ flowchart TD
 terminalStart([Start])
 terminalEnd([End])
 setDogRemote(set infraredPins)
+readInfrared(readControllerOutput)
+whatButtonPressed{which of the three was pressed}
+leftButton(turnHead left 10degrees with servo)
+rightButton(turnHead right 10degrees with servo)
+middleButton(change buttonBoolean)
 
-
+terminalStart --> setDogRemote
+setDogRemote --> readInfrared
+readInfrared --> whatButtonPressed
+whatButtonPressed --> |Left| leftButton
+whatButtonPressed --> |Right| rightButton
+whatButtonPressed --> |Middle| middleButton
+leftButton --> terminalEnd
+rightButton --> terminalEnd
+middleButton --> terminalEnd
 ```
