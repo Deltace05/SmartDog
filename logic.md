@@ -97,7 +97,7 @@ ifBooleanFalse --> terminalEnd
 flowchart TD
 terminalStart([Start])
 terminalEnd([End])
-setVolumePot(set potentioMeterPins)
+setVolumePot(set potentiometerPins)
 piezoInfo(piezoPins already set)
 readVolumePot(volumeData = data from volumePot)
 convertOutput(convert volumeData to voltageNum)
