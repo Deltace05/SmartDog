@@ -132,3 +132,22 @@ leftButton --> terminalEnd
 rightButton --> terminalEnd
 middleButton --> terminalEnd
 ```
+
+```mermaid
+flowchart TD
+terminalStart([Start])
+terminalEnd([End])
+setSDPins(set SDCardPins)
+checkTrig(check currentTriggerStatus)
+ifTrigger{is triggered?}
+trigTrue(write current sensorStatus to card)
+
+terminalStart --> setSDPins
+setSDPins --> checkTrig
+checkTrig --> ifTrigger
+ifTrigger --> |True| trigTrue
+trigTrue --> terminalEnd
+ifTrigger --> |False| terminalEnd
+
+
+```
