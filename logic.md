@@ -148,6 +148,4 @@ checkTrig --> ifTrigger
 ifTrigger --> |True| trigTrue
 trigTrue --> terminalEnd
 ifTrigger --> |False| terminalEnd
-
-
 ```
