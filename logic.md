@@ -1,3 +1,23 @@
+```mermaid
+flowchart TD
+terminalStart([Start])
+sonar(do sonar function)
+lineSensor(do lineSensor function)
+button(do button function)
+potentiometer(do potentiometer function)
+infraredControl(do infrared function)
+SDCard(do sdCard function)
+
+terminalStart --> sonar
+sonar --> lineSensor
+lineSensor --> button
+button --> potentiometer
+potentiometer --> infraredControl
+infraredControl --> SDCard
+SDCard --> sonar
+```
+
+
 When someone has entered the first range (50 centimeters) it will sound 1 buzz from the piezo and slow its passive wag by half (DC Motor). When someone enters the second range (35 cm) it will buzz twice and stop tail wag (DC Motor). If someone enters trigger range (25 cm) it will begin a constant buzzing.
 ```mermaid
 flowchart TD
@@ -48,6 +68,7 @@ piezoConstant --> sonarLightAlarm
 sonarLightAlarm --> terminalEnd
 ifDistanceLessThanThresholdThree --> |False| terminalEnd
 ```
+
 
 It will follow a line sensor path, if it is blocked it will turn on all lights and try the path again after a few seconds.
 ```mermaid
