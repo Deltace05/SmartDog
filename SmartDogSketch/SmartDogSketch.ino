@@ -1,8 +1,34 @@
+#include <L298N.h>
 #include <SPI.h>
 #include <SD.h>
 #include <RTClib.h>
+
 RTC_Millis rtc;
 DateTime rightNow;
+
+// Traffic Lights - LED Outputs
+#define ledRed A0
+#define ledYellow A1
+#define ledGreen A2 
+// Pin definition
+const unsigned int IN1 = 5;
+const unsigned int IN2 = 6;
+// Create one motor instance
+L298N motor (IN1, IN2);
+// Servo
+#include <Servo.h>
+Servo myservo;
+//Potentiometer
+#define pot A3
+// Piezo Buzzer
+#define piezoPin 8
+// Sonar - HC-SR04
+#define echoPin A4
+#define trigPin 2
+// Line Sensor
+#define lineSensorPin 3
+// Crash Sensor / Button
+#define crashSensor 4
 
 void setup() {
 Serial.begin(9600);
