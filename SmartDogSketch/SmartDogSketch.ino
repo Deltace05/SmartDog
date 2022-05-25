@@ -44,6 +44,26 @@ while (!Serial) {
   Serial.println("initialization done.");
 logEvent("System Initialisation...");
 
+// Traffic Lights - LED Outputs
+pinMode(ledRed, OUTPUT);
+pinMode(ledYellow, OUTPUT);
+pinMode(ledGreen, OUTPUT);
+// DC Motor & Motor Module - L298N
+motor.setSpeed(70);
+// Servo
+myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+//Potentiometer
+pinMode(pot, INPUT);
+// Piezo Buzzer
+pinMode(piezoPin,OUTPUT);
+// Sonar - HC-SR04
+pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+// Line Sensor
+pinMode(lineSensorPin, OUTPUT);
+// Crash Sensor / Button
+pinMode(crashSensor, INPUT);
+
 }
 
 void loop() {
