@@ -2,7 +2,9 @@
 #include <SPI.h>
 #include <SD.h>
 #include <RTClib.h>
+#include <Servo.h>
 
+Servo myservo;
 RTC_Millis rtc;
 DateTime rightNow;
 
@@ -15,9 +17,6 @@ const unsigned int IN1 = 5;
 const unsigned int IN2 = 6;
 // Create one motor instance
 L298N motor (IN1, IN2);
-// Servo
-#include <Servo.h>
-Servo myservo;
 //Potentiometer
 #define pot A3
 // Piezo Buzzer
@@ -64,7 +63,6 @@ void setup() {
   // Crash Sensor / Button
   pinMode(crashSensor, INPUT);
 
-  
 }
 
 void loop() {
