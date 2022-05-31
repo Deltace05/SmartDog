@@ -64,6 +64,7 @@ void setup() {
   // Crash Sensor / Button
   pinMode(crashSensor, INPUT);
 
+  
 }
 
 void loop() {
