@@ -1,3 +1,4 @@
+#include <Adafruit_NECremote.h>
 #include <L298N.h>
 #include <SPI.h>
 #include <SD.h>
@@ -8,7 +9,9 @@
 Servo myservo;
 RTC_Millis rtc;
 DateTime rightNow;
-
+// IR Remote
+#define IRpin 7
+Adafruit_NECremote remote(IRpin);
 // Traffic Lights - LED Outputs
 #define ledRed A0
 #define ledYellow A1
@@ -29,6 +32,10 @@ L298N motor (IN1, IN2);
 #define lineSensorPin 3
 // Crash Sensor / Button
 #define crashSensor 4
+
+long duration;
+int distance;
+boolean dogPowerStatus;
 
 void setup() {
   Serial.begin(9600);
@@ -67,14 +74,24 @@ void setup() {
 }
 
 void loop() {
-sonarSystem();
+  sonarSystem();
 }
 
 void sonarSystem() {
-digitalWrite(piezoPin, LOW);
-
-
-
+  int distanceThresOne = 50;
+  int distanceThresTwo = 35;
+  int distanceThresThree = 25;
+  digitalWrite(piezoPin, LOW);
+  digitalWrite(ledRed, LOW);
+  digitalWrite(ledYellow, LOW);
+  
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
 
 }
 
