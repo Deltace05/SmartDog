@@ -4,6 +4,7 @@
 #include <RTClib.h>
 #include <Servo.h>
 
+
 Servo myservo;
 RTC_Millis rtc;
 DateTime rightNow;
@@ -66,8 +67,17 @@ void setup() {
 }
 
 void loop() {
+sonarSystem();
+}
+
+void sonarSystem() {
+digitalWrite(piezoPin, LOW);
+
+
+
 
 }
+
 
 void logEvent(String dataToLog) {
   /*
