@@ -33,11 +33,10 @@ L298N motor (IN1, IN2);
 // Crash Sensor / Button
 #define crashSensor 4
 
-long duration;
-int distance;
 boolean dogPowerStatus;
 
 void setup() {
+  
   Serial.begin(9600);
   while (!Serial) {
     delay(1);
@@ -74,17 +73,28 @@ void setup() {
 }
 
 void loop() {
-  sonarSystem();
+  sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
+  lineSensSystem(); //Line Sensor, LED Green.
+  powerButtonSystem(); //Button or Crash Sensor
+  
+  delay(100);
 }
-
+/*
+ * 
+ * 
+ * @param
+ * @return
+ */
 void sonarSystem() {
+  long duration;
+  int distance;
   int distanceThresOne = 50;
   int distanceThresTwo = 35;
   int distanceThresThree = 25;
   digitalWrite(piezoPin, LOW);
   digitalWrite(ledRed, LOW);
   digitalWrite(ledYellow, LOW);
-  
+
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
@@ -94,6 +104,29 @@ void sonarSystem() {
   distance = duration * 0.034 / 2;
 
 }
+
+/*
+ * 
+ * 
+ * @param
+ * @return
+ */
+void lineSensSystem() {
+  
+}
+
+/*
+ * 
+ * 
+ * @param
+ * @return
+ */
+void powerButtonSystem() {
+  
+}
+
+
+
 
 
 void logEvent(String dataToLog) {
