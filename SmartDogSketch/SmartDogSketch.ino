@@ -76,7 +76,7 @@ void loop() {
   sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
-  
+ // remoteDecode();
   delay(100);
 }
 /*
@@ -102,7 +102,12 @@ void sonarSystem() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2;
-
+  Serial.println("distance"+distance);
+  if (distance >= distanceThresThree) {
+    digitalWrite(ledRed, HIGH);
+  } else {
+    digitalWrite(ledRed, LOW);
+  }
 }
 
 /*
@@ -125,7 +130,75 @@ void powerButtonSystem() {
   
 }
 
+String remoteDecode() {
+  int c = remote.listen(1);  // seconds to wait before timing out!
+  // Or you can wait 'forever' for a valid code
+  //int c = remote.listen();  // Without a #, it means wait forever
+  if (c >= 0) {
+    switch (c) {
+        Serial.println("Code is :" + c);
+      // Top keys
+      case 70:
+        Serial.println("UP");
+        break;
+      case 21:
+        Serial.println("DOWN");
+        break;
+      case 68:
+        Serial.println("LEFT");
+        break;
+      case 67:
+        Serial.println("RIGHT");
+        break;
+      case 64:
+        Serial.println("OK");
+        break;
+      // Numbers
+      case 22:
+        Serial.println("1");
+        break;
+      case 25:
+        Serial.println("2");
+        break;
+      case 13:
+        Serial.println("3");
+        break;
+      case 12:
+        Serial.println("4");
+        break;
+      case 24:
+        Serial.println("5");
+        break;
+      case 94:
+        Serial.println("6");
+        break;
+      case 8:
+        Serial.println("7");
+        break;
+      case 28:
+        Serial.println("8");
+        break;
+      case 90:
+        Serial.println("9");
+        break;
+      case 82:
+        Serial.println("0");
+        break;
+      // # and *
+      case 66:
+        Serial.println("*");
+        break;
+      case 74:
+        Serial.println("#");
+        break;
+      // otherwise...
+      default:
+        Serial.println("Code is :" + c);
+        break;
+    }
 
+  }
+}
 
 
 
@@ -142,7 +215,6 @@ void logEvent(String dataToLog) {
     Serial.print("Couldn't create log file");
     abort();
   }
-
   // Log the event with the date, time and data
   logFile.print(rightNow.year(), DEC);
   logFile.print(",");
@@ -157,7 +229,6 @@ void logEvent(String dataToLog) {
   logFile.print(rightNow.second(), DEC);
   logFile.print(",");
   logFile.print(dataToLog);
-
   // End the line with a return character.
   logFile.println();
   logFile.close();
