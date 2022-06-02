@@ -36,7 +36,7 @@ L298N motor (IN1, IN2);
 boolean dogPowerStatus;
 
 void setup() {
-  
+
   Serial.begin(9600);
   while (!Serial) {
     delay(1);
@@ -76,24 +76,22 @@ void loop() {
   sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
- // remoteDecode();
+  // remoteDecode();
   delay(100);
 }
 /*
- * 
- * 
- * @param
- * @return
- */
+   When someone enters the first threshold (50), it will buzz once with the piezo and slow constant tail wag (DC Motor).
+   When someone enters second threshold (35), it will buzz twice with the piezo and stop it's wag (DC Motor)
+   When someone enters third threshold(25), it will constantly buzz the piezo.
+   @param
+   @return
+*/
 void sonarSystem() {
   long duration;
   int distance;
   int distanceThresOne = 50;
   int distanceThresTwo = 35;
   int distanceThresThree = 25;
-  digitalWrite(piezoPin, LOW);
-  digitalWrite(ledRed, LOW);
-  digitalWrite(ledYellow, LOW);
 
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -102,32 +100,34 @@ void sonarSystem() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2;
-  Serial.println("distance"+distance);
-  if (distance >= distanceThresThree) {
-    digitalWrite(ledRed, HIGH);
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  if (distance <= distanceThresThree) {
+    analogWrite(ledYellow, HIGH);
   } else {
-    digitalWrite(ledRed, LOW);
+    analogWrite(ledYellow, LOW);
   }
 }
 
 /*
- * 
- * 
- * @param
- * @return
- */
+
+
+   @param
+   @return
+*/
 void lineSensSystem() {
-  
+
 }
 
 /*
- * 
- * 
- * @param
- * @return
- */
+
+
+   @param
+   @return
+*/
 void powerButtonSystem() {
-  
+
 }
 
 String remoteDecode() {
@@ -229,6 +229,7 @@ void logEvent(String dataToLog) {
   logFile.print(rightNow.second(), DEC);
   logFile.print(",");
   logFile.print(dataToLog);
+  
   // End the line with a return character.
   logFile.println();
   logFile.close();
@@ -246,4 +247,5 @@ void logEvent(String dataToLog) {
   Serial.print(rightNow.second(), DEC);
   Serial.print(",");
   Serial.println(dataToLog);
+  
 }
