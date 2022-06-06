@@ -76,7 +76,8 @@ void loop() {
   sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
-  // remoteDecode();
+  potVolumeSystem(); //potentiometer for volume of piezo
+  remoteDecode();
   delay(100);
 }
 /*
@@ -104,15 +105,16 @@ void sonarSystem() {
   Serial.print(distance);
   Serial.println(" cm");
   if (distance <= distanceThresThree) {
-    analogWrite(ledYellow, HIGH);
+    digitalWrite(ledRed, HIGH);
   } else {
-    analogWrite(ledYellow, LOW);
+    digitalWrite(ledRed, LOW);
   }
 }
 
 /*
-
-
+  It will use line sensor
+  if it is blocked it will turn on green light
+  and try the path again after a few seconds.
    @param
    @return
 */
@@ -121,29 +123,38 @@ void lineSensSystem() {
 }
 
 /*
-
-
+  A button can be used to disable all
+  functionality/turn off the dog, and can then turn it back on.
    @param
    @return
 */
 void powerButtonSystem() {
 
 }
+/*
+  A potentiometer will be able to control
+  the volume of its buzzer output
+   @param
+   @return
+*/
 
+void potVolumeSystem() {
+
+}
+
+/*
+An infrared remote can be used to override the security protocol 
+and allow access to its area of guarding. The infrared controller can
+also command the robot dog to rotate its head with a servo motor.
+   @param
+   @return
+*/
 String remoteDecode() {
-  int c = remote.listen(1);  // seconds to wait before timing out!
+  int c = remote.listen(0);  // seconds to wait before timing out!
   // Or you can wait 'forever' for a valid code
   //int c = remote.listen();  // Without a #, it means wait forever
   if (c >= 0) {
     switch (c) {
-        Serial.println("Code is :" + c);
-      // Top keys
-      case 70:
-        Serial.println("UP");
-        break;
-      case 21:
-        Serial.println("DOWN");
-        break;
       case 68:
         Serial.println("LEFT");
         break;
@@ -152,44 +163,6 @@ String remoteDecode() {
         break;
       case 64:
         Serial.println("OK");
-        break;
-      // Numbers
-      case 22:
-        Serial.println("1");
-        break;
-      case 25:
-        Serial.println("2");
-        break;
-      case 13:
-        Serial.println("3");
-        break;
-      case 12:
-        Serial.println("4");
-        break;
-      case 24:
-        Serial.println("5");
-        break;
-      case 94:
-        Serial.println("6");
-        break;
-      case 8:
-        Serial.println("7");
-        break;
-      case 28:
-        Serial.println("8");
-        break;
-      case 90:
-        Serial.println("9");
-        break;
-      case 82:
-        Serial.println("0");
-        break;
-      // # and *
-      case 66:
-        Serial.println("*");
-        break;
-      case 74:
-        Serial.println("#");
         break;
       // otherwise...
       default:
@@ -229,7 +202,7 @@ void logEvent(String dataToLog) {
   logFile.print(rightNow.second(), DEC);
   logFile.print(",");
   logFile.print(dataToLog);
-  
+
   // End the line with a return character.
   logFile.println();
   logFile.close();
@@ -247,5 +220,5 @@ void logEvent(String dataToLog) {
   Serial.print(rightNow.second(), DEC);
   Serial.print(",");
   Serial.println(dataToLog);
-  
+
 }
