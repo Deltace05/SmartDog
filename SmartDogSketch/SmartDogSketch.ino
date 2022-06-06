@@ -77,12 +77,12 @@ void loop() {
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
-  remoteDecode();
+  //remoteDecode(); //IR remote, servo.
   delay(100);
 }
 /*
-   When someone enters the first threshold (50), it will buzz once with the piezo and slow constant tail wag (DC Motor).
-   When someone enters second threshold (35), it will buzz twice with the piezo and stop it's wag (DC Motor)
+   When someone enters the first threshold (50), it will buzz once with the piezo and wag it's tail for a second (DC Motor
+   When someone enters second threshold (35), it will buzz twice with the piezo and tail wag constant (DC Motor)
    When someone enters third threshold(25), it will constantly buzz the piezo.
    @param
    @return
@@ -104,10 +104,13 @@ void sonarSystem() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
-  if (distance <= distanceThresThree) {
-    digitalWrite(ledRed, HIGH);
+  
+  if (distance <= distanceThresOne) {
+    tone(piezoPin, 100);
+    motor.forward();
   } else {
-    digitalWrite(ledRed, LOW);
+    noTone(piezoPin);
+    motor.stop();
   }
 }
 
@@ -143,14 +146,14 @@ void potVolumeSystem() {
 }
 
 /*
-An infrared remote can be used to override the security protocol 
-and allow access to its area of guarding. The infrared controller can
-also command the robot dog to rotate its head with a servo motor.
+  An infrared remote can be used to override the security protocol
+  and allow access to its area of guarding. The infrared controller can
+  also command the robot dog to rotate its head with a servo motor.
    @param
    @return
 */
-String remoteDecode() {
-  int c = remote.listen(0);  // seconds to wait before timing out!
+void remoteDecode() {
+  int c = remote.listen(1);  // seconds to wait before timing out!
   // Or you can wait 'forever' for a valid code
   //int c = remote.listen();  // Without a #, it means wait forever
   if (c >= 0) {
@@ -169,7 +172,6 @@ String remoteDecode() {
         Serial.println("Code is :" + c);
         break;
     }
-
   }
 }
 
