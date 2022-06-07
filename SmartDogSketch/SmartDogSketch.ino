@@ -73,7 +73,7 @@ void setup() {
 }
 
 void loop() {
-  //sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
+  sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
@@ -107,7 +107,7 @@ void sonarSystem() {
   Serial.println(" cm");
 
   if (distance <= distanceThresThree) {
-    tone(piezoPin, 1500);
+    tone(piezoPin, potVolume);
     digitalWrite(ledRed, HIGH);
     digitalWrite(ledYellow, LOW);
     delay (10);
@@ -115,10 +115,10 @@ void sonarSystem() {
     digitalWrite(ledYellow, HIGH);
   } else {
     if (distance <= distanceThresTwo) {
-      tone(piezoPin, 1000);
+      tone(piezoPin, potVolume);
     } else {
       if (distance <= distanceThresOne) {
-        tone(piezoPin, 500);
+        tone(piezoPin, potVolume);
       } else {
         noTone(piezoPin);
         digitalWrite(ledRed, LOW);
@@ -156,8 +156,8 @@ void powerButtonSystem() {
 */
 
 void potVolumeSystem() {
-  int potValue = analogRead(pot);            // reads the value of the potentiometer (value between 0 and 1023)
-  Serial.println(potValue);
+  potVolume = analogRead(pot);            // reads the value of the potentiometer (value between 0 and 1023)
+  //Serial.println(potValue);
   
 }
 /*
