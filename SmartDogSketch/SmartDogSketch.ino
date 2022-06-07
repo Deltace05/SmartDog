@@ -1,17 +1,16 @@
-#include <Adafruit_NECremote.h>
 #include <L298N.h>
 #include <SPI.h>
 #include <SD.h>
 #include <RTClib.h>
 #include <Servo.h>
-
+#include <IRremote.h>
+#define IR_INPUT_PIN 7
+IRrecv irrecv(IR_INPUT_PIN);
+decode_results results;
 
 Servo myservo;
 RTC_Millis rtc;
 DateTime rightNow;
-// IR Remote
-#define IRpin 7
-Adafruit_NECremote remote(IRpin);
 // Traffic Lights - LED Outputs
 #define ledRed A0
 #define ledYellow A1
@@ -34,6 +33,7 @@ L298N motor (IN1, IN2);
 #define crashSensor 4
 
 boolean dogPowerStatus;
+int potVolume;
 
 void setup() {
 
@@ -69,17 +69,18 @@ void setup() {
   pinMode(lineSensorPin, OUTPUT);
   // Crash Sensor / Button
   pinMode(crashSensor, INPUT);
-
+  irrecv.enableIRIn();
 }
 
 void loop() {
-  sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
+  //sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
   //remoteDecode(); //IR remote, servo.
   delay(100);
 }
+
 /*
    When someone enters the first threshold (50), it will buzz once with the piezo and wag it's tail for a second (DC Motor
    When someone enters second threshold (35), it will buzz twice with the piezo and tail wag constant (DC Motor)
@@ -104,13 +105,26 @@ void sonarSystem() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
-  
-  if (distance <= distanceThresOne) {
-    tone(piezoPin, 100);
-    motor.forward();
+
+  if (distance <= distanceThresThree) {
+    tone(piezoPin, 1500);
+    digitalWrite(ledRed, HIGH);
+    digitalWrite(ledYellow, LOW);
+    delay (10);
+    digitalWrite(ledRed, LOW);
+    digitalWrite(ledYellow, HIGH);
   } else {
-    noTone(piezoPin);
-    motor.stop();
+    if (distance <= distanceThresTwo) {
+      tone(piezoPin, 1000);
+    } else {
+      if (distance <= distanceThresOne) {
+        tone(piezoPin, 500);
+      } else {
+        noTone(piezoPin);
+        digitalWrite(ledRed, LOW);
+        digitalWrite(ledYellow, LOW);
+      }
+    }
   }
 }
 
@@ -136,44 +150,59 @@ void powerButtonSystem() {
 }
 /*
   A potentiometer will be able to control
-  the volume of its buzzer output
+  the volume of the buzzer output
    @param
    @return
 */
 
 void potVolumeSystem() {
-
+  int potValue = analogRead(pot);            // reads the value of the potentiometer (value between 0 and 1023)
+  Serial.println(potValue);
+  
 }
-
 /*
   An infrared remote can be used to override the security protocol
   and allow access to its area of guarding. The infrared controller can
   also command the robot dog to rotate its head with a servo motor.
-   @param
-   @return
+   Gets the value given by the Keyes IR remote.
+   Code values are:
+
+   Up     : 25245
+   Down   : -22441
+   Left   : 8925
+   Right  : -15811
+   Ok     : 765
+   1      : 26775
+   2      : -26521
+   3      : -20401
+   4      : 12495
+   5      : 6375
+   6      : 31365
+   7      : 4335
+   8      : 14535
+   9      : 23205
+   0      : 19125
+   #      : 21165
+          : 17085
+
+   Test against each code and perform required action. See example in code.
+
+   @params: None
+   @return: void
 */
 void remoteDecode() {
-  int c = remote.listen(1);  // seconds to wait before timing out!
-  // Or you can wait 'forever' for a valid code
-  //int c = remote.listen();  // Without a #, it means wait forever
-  if (c >= 0) {
-    switch (c) {
-      case 68:
-        Serial.println("LEFT");
-        break;
-      case 67:
-        Serial.println("RIGHT");
-        break;
-      case 64:
-        Serial.println("OK");
-        break;
-      // otherwise...
-      default:
-        Serial.println("Code is :" + c);
-        break;
+
+  if (irrecv.decode(&results)) {
+
+    int code = results.value;
+    Serial.println(code);
+    if (code == 25245) {  // Up
+      Serial.println("Up");
     }
+    irrecv.resume();
   }
 }
+
 
 
 
