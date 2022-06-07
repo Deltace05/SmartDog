@@ -105,47 +105,49 @@ void sonarSystem() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
-
-  if (distance <= distanceThresThree) {
-    tone(piezoPin, potVolume + 1500);
-    digitalWrite(ledRed, HIGH);
-    digitalWrite(ledYellow, LOW);
-    delay (10);
-    digitalWrite(ledRed, LOW);
-    digitalWrite(ledYellow, HIGH);
-  } else {
-    if (distance <= distanceThresTwo) {
-      tone(piezoPin, potVolume + 1000);
-    } else {
-      if (distance <= distanceThresOne) {
-        tone(piezoPin, potVolume + 100);
-      } else {
-        noTone(piezoPin);
-        digitalWrite(ledRed, LOW);
-        digitalWrite(ledYellow, LOW);
-      }
-    }
-  }
+  if(dogPowerStatus == 1) {
+   if (distance <= distanceThresThree) {
+     tone(piezoPin, potVolume + 1500);
+     digitalWrite(ledRed, HIGH);
+     digitalWrite(ledYellow, LOW);
+     delay (10);
+     digitalWrite(ledRed, LOW);
+     digitalWrite(ledYellow, HIGH);
+   } else {
+     if (distance <= distanceThresTwo) {
+       tone(piezoPin, potVolume + 1000);
+     } else {
+       if (distance <= distanceThresOne) {
+         tone(piezoPin, potVolume + 100);
+       } else {
+         noTone(piezoPin);
+         digitalWrite(ledRed, LOW);
+         digitalWrite(ledYellow, LOW);
+       }
+     }
+   }
+ }
 }
 
 /*
   It will use line sensor
   if it is blocked it will turn on green light
-  and try the path again after a few seconds.
    @param
    @return
 */
 void lineSensSystem() {
   int lineSensorValue = digitalRead(lineSensorPin);
   //Serial.println(lineSensorValue);
-  if (lineSensorValue == 0){
-    digitalWrite(ledGreen, HIGH);
-  }
-  if (lineSensorValue == 1) {
-    digitalWrite(ledGreen, LOW);
+  if (dogPowerStatus == 1) {
+   if (lineSensorValue == 0) {
+     digitalWrite(ledGreen, HIGH);
+   }
+   if (lineSensorValue == 1) {
+     digitalWrite(ledGreen, LOW);
+   }
   }
 }
-  
+
 /*
   A button can be used to disable all
   functionality/turn off the dog, and can then turn it back on.
@@ -153,7 +155,8 @@ void lineSensSystem() {
    @return
 */
 void powerButtonSystem() {
-
+  dogPowerStatus = digitalRead(crashSensor);
+  //Serial.println(dogPowerStatus);
 }
 /*
   A potentiometer will be able to control
@@ -165,7 +168,6 @@ void powerButtonSystem() {
 void potVolumeSystem() {
   potVolume = analogRead(pot);            // reads the value of the potentiometer (value between 0 and 1023)
   //Serial.println(potValue);
-
 }
 /*
   An infrared remote can be used to override the security protocol
