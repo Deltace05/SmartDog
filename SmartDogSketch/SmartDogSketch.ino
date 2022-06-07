@@ -66,7 +66,7 @@ void setup() {
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
   pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
   // Line Sensor
-  pinMode(lineSensorPin, OUTPUT);
+  pinMode(lineSensorPin, INPUT);
   // Crash Sensor / Button
   pinMode(crashSensor, INPUT);
   irrecv.enableIRIn();
@@ -91,9 +91,9 @@ void loop() {
 void sonarSystem() {
   long duration;
   int distance;
-  int distanceThresOne = 50;
+  int distanceThresOne = 55;
   int distanceThresTwo = 35;
-  int distanceThresThree = 25;
+  int distanceThresThree = 15;
 
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -107,7 +107,7 @@ void sonarSystem() {
   Serial.println(" cm");
 
   if (distance <= distanceThresThree) {
-    tone(piezoPin, potVolume);
+    tone(piezoPin, potVolume + 1500);
     digitalWrite(ledRed, HIGH);
     digitalWrite(ledYellow, LOW);
     delay (10);
@@ -115,10 +115,10 @@ void sonarSystem() {
     digitalWrite(ledYellow, HIGH);
   } else {
     if (distance <= distanceThresTwo) {
-      tone(piezoPin, potVolume);
+      tone(piezoPin, potVolume + 1000);
     } else {
       if (distance <= distanceThresOne) {
-        tone(piezoPin, potVolume);
+        tone(piezoPin, potVolume + 100);
       } else {
         noTone(piezoPin);
         digitalWrite(ledRed, LOW);
@@ -136,9 +136,16 @@ void sonarSystem() {
    @return
 */
 void lineSensSystem() {
-
+  int lineSensorValue = digitalRead(lineSensorPin);
+  //Serial.println(lineSensorValue);
+  if (lineSensorValue == 0){
+    digitalWrite(ledGreen, HIGH);
+  }
+  if (lineSensorValue == 1) {
+    digitalWrite(ledGreen, LOW);
+  }
 }
-
+  
 /*
   A button can be used to disable all
   functionality/turn off the dog, and can then turn it back on.
@@ -158,7 +165,7 @@ void powerButtonSystem() {
 void potVolumeSystem() {
   potVolume = analogRead(pot);            // reads the value of the potentiometer (value between 0 and 1023)
   //Serial.println(potValue);
-  
+
 }
 /*
   An infrared remote can be used to override the security protocol
