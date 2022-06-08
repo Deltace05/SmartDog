@@ -77,7 +77,7 @@ void loop() {
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
-  //remoteDecode(); //IR remote, servo.
+  remoteDecode(); //IR remote, servo.
   delay(100);
 }
 
@@ -91,8 +91,8 @@ void loop() {
 void sonarSystem() {
   long duration;
   int distance;
-  int distanceThresOne = 55;
-  int distanceThresTwo = 35;
+  int distanceThresOne = 50;
+  int distanceThresTwo = 25;
   int distanceThresThree = 15;
 
   digitalWrite(trigPin, LOW);
@@ -105,28 +105,33 @@ void sonarSystem() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
-  if(dogPowerStatus == 1) {
-   if (distance <= distanceThresThree) {
-     tone(piezoPin, potVolume + 1500);
-     digitalWrite(ledRed, HIGH);
-     digitalWrite(ledYellow, LOW);
-     delay (10);
-     digitalWrite(ledRed, LOW);
-     digitalWrite(ledYellow, HIGH);
-   } else {
-     if (distance <= distanceThresTwo) {
-       tone(piezoPin, potVolume + 1000);
-     } else {
-       if (distance <= distanceThresOne) {
-         tone(piezoPin, potVolume + 100);
-       } else {
-         noTone(piezoPin);
-         digitalWrite(ledRed, LOW);
-         digitalWrite(ledYellow, LOW);
-       }
-     }
-   }
- }
+  if (dogPowerStatus == 1) {
+    if (distance <= distanceThresThree) {
+      tone(piezoPin, potVolume + 1500);
+      digitalWrite(ledRed, HIGH);
+      digitalWrite(ledYellow, LOW);
+      delay (15);
+      digitalWrite(ledRed, LOW);
+      digitalWrite(ledYellow, HIGH);
+      motor.forward();
+    } else {
+      if (distance <= distanceThresTwo) {
+        tone(piezoPin, potVolume + 1000);
+        digitalWrite(ledYellow, LOW);
+        motor.backward();
+      } else {
+        if (distance <= distanceThresOne) {
+          tone(piezoPin, potVolume + 100);
+          motor.stop();
+        } else {
+          noTone(piezoPin);
+          digitalWrite(ledRed, LOW);
+          digitalWrite(ledYellow, LOW);
+          motor.stop();
+        }
+      }
+    }
+  }
 }
 
 /*
@@ -139,12 +144,12 @@ void lineSensSystem() {
   int lineSensorValue = digitalRead(lineSensorPin);
   //Serial.println(lineSensorValue);
   if (dogPowerStatus == 1) {
-   if (lineSensorValue == 0) {
-     digitalWrite(ledGreen, HIGH);
-   }
-   if (lineSensorValue == 1) {
-     digitalWrite(ledGreen, LOW);
-   }
+    if (lineSensorValue == 0) {
+      digitalWrite(ledGreen, HIGH);
+    }
+    if (lineSensorValue == 1) {
+      digitalWrite(ledGreen, LOW);
+    }
   }
 }
 
@@ -202,11 +207,26 @@ void potVolumeSystem() {
 void remoteDecode() {
 
   if (irrecv.decode(&results)) {
-
     int code = results.value;
-    Serial.println(code);
-    if (code == 25245) {  // Up
+    
+    if (code == 765) {
+      Serial.println("Ok");
+      dogPowerStatus == 1;
+      delay(10000);
+    } else {
+      dogPowerStatus == 0;
+    }
+    if (code == 8925) {
+      Serial.println("Left");
+      myservo.write(0);
+    }
+    if (code == -15811) {
+      Serial.println("Right");
+      myservo.write(180);
+    }
+    if (code == 25245) {
       Serial.println("Up");
+      myservo.write(90);
     }
     irrecv.resume();
   }
