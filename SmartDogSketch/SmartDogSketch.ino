@@ -4,7 +4,7 @@
 #include <RTClib.h>
 #include <Servo.h>
 #include <IRremote.h>
-#define IR_INPUT_PIN 7
+#define IR_INPUT_PIN 2
 IRrecv irrecv(IR_INPUT_PIN);
 decode_results results;
 
@@ -26,7 +26,7 @@ L298N motor (IN1, IN2);
 #define piezoPin 8
 // Sonar - HC-SR04
 #define echoPin A4
-#define trigPin 2
+#define trigPin 7
 // Line Sensor
 #define lineSensorPin 3
 // Crash Sensor / Button
@@ -73,7 +73,7 @@ void setup() {
 }
 
 void loop() {
-  sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor.
+  sonarSystem(); //Sonar, LED Red Yellow, Piezo, DC Motor. (warning, using this with remote decode causes problems)
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
@@ -121,7 +121,7 @@ void sonarSystem() {
         motor.backward();
       } else {
         if (distance <= distanceThresOne) {
-          tone(piezoPin, potVolume + 100);
+          tone(piezoPin, potVolume + 500);
           motor.stop();
         } else {
           noTone(piezoPin);
@@ -180,27 +180,10 @@ void potVolumeSystem() {
   also command the robot dog to rotate its head with a servo motor.
    Gets the value given by the Keyes IR remote.
    Code values are:
-
    Up     : 25245
-   Down   : -22441
    Left   : 8925
    Right  : -15811
    Ok     : 765
-   1      : 26775
-   2      : -26521
-   3      : -20401
-   4      : 12495
-   5      : 6375
-   6      : 31365
-   7      : 4335
-   8      : 14535
-   9      : 23205
-   0      : 19125
-   #      : 21165
-          : 17085
-
-   Test against each code and perform required action. See example in code.
-
    @params: None
    @return: void
 */
@@ -208,7 +191,7 @@ void remoteDecode() {
 
   if (irrecv.decode(&results)) {
     int code = results.value;
-    
+    //Serial.println(code);
     if (code == 765) {
       Serial.println("Ok");
       dogPowerStatus == 1;
