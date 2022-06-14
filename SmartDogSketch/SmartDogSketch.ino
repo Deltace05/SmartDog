@@ -77,7 +77,7 @@ void loop() {
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
-  //remoteDecode(); //IR remote, servo.
+  remoteDecode(); //IR remote, servo.
   delay(100);
 }
 
@@ -215,7 +215,7 @@ void remoteDecode() {
     if (code == 25245) {
       Serial.println("Up");
       myservo.write(90);
-      logEvent("Servo centered")
+      logEvent("Servo centered");
     }
     irrecv.resume();
   }
