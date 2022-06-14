@@ -78,7 +78,7 @@ void loop() {
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
   remoteDecode(); //IR remote, servo.
-  delay(100);
+  delay(250);
 }
 
 /*
@@ -102,9 +102,11 @@ void sonarSystem() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2;
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  //Serial.print("Distance: ");
+  //Serial.print(distance);
+  //Serial.println(" cm");
+  String distanceToLog = String(distance);
+  logEvent(distanceToLog);
   if (dogPowerStatus == 1) {
     if (distance <= distanceThresThree) {
       tone(piezoPin, potVolume + 1500);
@@ -114,7 +116,7 @@ void sonarSystem() {
       digitalWrite(ledRed, LOW);
       digitalWrite(ledYellow, HIGH);
       motor.forward();
-      logEvent("Sonar Triggered");
+      //logEvent("Sonar Triggered");
     } else {
       if (distance <= distanceThresTwo) {
         tone(piezoPin, potVolume + 1000);
@@ -147,7 +149,7 @@ void lineSensSystem() {
   if (dogPowerStatus == 1) {
     if (lineSensorValue == 0) {
       digitalWrite(ledGreen, HIGH);
-      logEvent("Line Sensor Triggered");
+      //logEvent("Line Sensor Triggered");
     }
     if (lineSensorValue == 1) {
       digitalWrite(ledGreen, LOW);
@@ -198,24 +200,24 @@ void remoteDecode() {
       Serial.println("Ok");
       dogPowerStatus == 1;
       delay(10000);
-      logEvent("Power Button remote");
+      //logEvent("Power Button remote");
     } else {
       dogPowerStatus == 0;
     }
     if (code == 8925) {
       Serial.println("Left");
       myservo.write(0);
-      logEvent("Servo Left");
+      //logEvent("Servo Left");
     }
     if (code == -15811) {
       Serial.println("Right");
       myservo.write(180);
-      logEvent("Servo Right");
+      //logEvent("Servo Right");
     }
     if (code == 25245) {
       Serial.println("Up");
       myservo.write(90);
-      logEvent("Servo centered");
+      //logEvent("Servo centered");
     }
     irrecv.resume();
   }
