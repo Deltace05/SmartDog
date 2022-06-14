@@ -77,7 +77,7 @@ void loop() {
   lineSensSystem(); //Line Sensor, LED Green.
   powerButtonSystem(); //Button or Crash Sensor
   potVolumeSystem(); //potentiometer for volume of piezo
-  remoteDecode(); //IR remote, servo.
+  //remoteDecode(); //IR remote, servo.
   delay(100);
 }
 
@@ -114,6 +114,7 @@ void sonarSystem() {
       digitalWrite(ledRed, LOW);
       digitalWrite(ledYellow, HIGH);
       motor.forward();
+      logEvent("Sonar Triggered");
     } else {
       if (distance <= distanceThresTwo) {
         tone(piezoPin, potVolume + 1000);
@@ -146,6 +147,7 @@ void lineSensSystem() {
   if (dogPowerStatus == 1) {
     if (lineSensorValue == 0) {
       digitalWrite(ledGreen, HIGH);
+      logEvent("Line Sensor Triggered");
     }
     if (lineSensorValue == 1) {
       digitalWrite(ledGreen, LOW);
@@ -196,20 +198,24 @@ void remoteDecode() {
       Serial.println("Ok");
       dogPowerStatus == 1;
       delay(10000);
+      logEvent("Power Button remote");
     } else {
       dogPowerStatus == 0;
     }
     if (code == 8925) {
       Serial.println("Left");
       myservo.write(0);
+      logEvent("Servo Left");
     }
     if (code == -15811) {
       Serial.println("Right");
       myservo.write(180);
+      logEvent("Servo Right");
     }
     if (code == 25245) {
       Serial.println("Up");
       myservo.write(90);
+      logEvent("Servo centered")
     }
     irrecv.resume();
   }
