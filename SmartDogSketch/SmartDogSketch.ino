@@ -102,11 +102,11 @@ void sonarSystem() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = duration * 0.034 / 2;
-  //Serial.print("Distance: ");
-  //Serial.print(distance);
-  //Serial.println(" cm");
-  String distanceToLog = String(distance);
-  logEvent(distanceToLog);
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  //String distanceToLog = String(distance);
+  //logEvent(distanceToLog);
   if (dogPowerStatus == 1) {
     if (distance <= distanceThresThree) {
       tone(piezoPin, potVolume + 1500);
